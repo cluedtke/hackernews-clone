@@ -1,0 +1,14 @@
+# http endpoint for prisma api
+endpoint: 'http://192.168.99.102:4466'
+
+# file that contains the datamodel
+datamodel: datamodel.prisma
+
+# language and location for generated prisma client
+generate:
+  - generator: javascript-client
+    output: ../src/generated/prisma-client
+
+hooks:
+  post-deploy:
+    - prisma generate
