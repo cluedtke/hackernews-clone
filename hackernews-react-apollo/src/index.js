@@ -9,7 +9,7 @@ import { createHttpLink } from 'apollo-link-http';
 
 const client = new ApolloClient({
     link: createHttpLink({
-        uri: 'http://192.168.99.102:4000'
+        uri: 'http://localhost:4000'
     }),
     cache: new InMemoryCache(),
 });
