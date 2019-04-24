@@ -5,13 +5,27 @@ import App from './components/App'
 import * as serviceWorker from './serviceWorker'
 import { ApolloProvider } from 'react-apollo'
 import { ApolloClient, InMemoryCache } from 'apollo-boost'
+import { setContext } from 'apollo-link-context'
 import { createHttpLink } from 'apollo-link-http'
 import { BrowserRouter } from 'react-router-dom'
+import { AUTH_TOKEN } from './constants';
+
+const httpLink = createHttpLink({
+    uri: 'http://localhost:4000'
+})
+
+const authLink = setContext((_, { headers }) => {
+    const token = localStorage.getItem(AUTH_TOKEN)
+    return {
+        headers: {
+            ...headers,
+            authorization: token ? `Bearer ${token}` : ''
+        }
+    }
+})
 
 const client = new ApolloClient({
-    link: createHttpLink({
-        uri: 'http://localhost:4000'
-    }),
+    link: authLink.concat(httpLink),
     cache: new InMemoryCache(),
 })
 
